@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace edzotermi_berlet_projekt.Models
 {
@@ -18,6 +19,7 @@ namespace edzotermi_berlet_projekt.Models
 
         public DateTime RegisztracioDatum { get; set; } = DateTime.Today;
 
+        [ValidateNever]
         public ICollection<Berlet> Berletek { get; set; } = new List<Berlet>();
     }
 }

@@ -1,0 +1,49 @@
+@page
+@model edzotermi_berlet_projekt.Pages.BerletPages.DetailsModel
+
+@{
+    ViewData["Title"] = "Bérlet részletei";
+}
+
+<h1>Bérlet részletei</h1>
+
+<div>
+    <h4>Bérlet</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">Tag neve</dt>
+        <dd class="col-sm-9">@Model.Berlet.Tag.Nev</dd>
+
+        <dt class="col-sm-3">Bérlettípus</dt>
+        <dd class="col-sm-9">@Model.Berlet.BerletTipus.Nev</dd>
+
+        <dt class="col-sm-3">Vásárlás dátuma</dt>
+        <dd class="col-sm-9">
+            @Model.Berlet.Vasarlas.ToString("yyyy. MM. dd.")
+        </dd>
+
+        <dt class="col-sm-3">Lejárat dátuma</dt>
+        <dd class="col-sm-9">
+            @Model.Berlet.Lejarat.ToString("yyyy. MM. dd.")
+        </dd>
+
+        <dt class="col-sm-3">Felhasznált belépések</dt>
+        <dd class="col-sm-9">
+            @Model.Berlet.FelhasznaltBelepes
+        </dd>
+
+        <dt class="col-sm-3">Rögzített belépések száma</dt>
+        <dd class="col-sm-9">
+            @Model.Berlet.Belepesek.Count
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Berlet.Id"
+       class="btn btn-primary">Szerkesztés</a>
+    <a asp-page="./Index" class="btn btn-secondary">
+        Vissza a listához
+    </a>
+</div>

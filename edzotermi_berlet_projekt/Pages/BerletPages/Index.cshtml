@@ -1,0 +1,89 @@
+@page
+@model edzotermi_berlet_projekt.Pages.BerletPages.IndexModel
+
+@{
+    ViewData["Title"] = "Bérletek";
+}
+
+<h1>Bérletek</h1>
+
+@if (TempData["Siker"] != null)
+{
+    <div class="alert alert-success">@TempData["Siker"]</div>
+}
+
+@if (TempData["Hiba"] != null)
+{
+    <div class="alert alert-danger">@TempData["Hiba"]</div>
+}
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Új bérlet vásárlása</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tag</th>
+            <th>Bérlettípus</th>
+            <th>Vásárlás</th>
+            <th>Lejárat</th>
+            <th>Felhasznált belépések</th>
+            <th>Állapot</th>
+            <th>Műveletek</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Berlet)
+        {
+            <tr>
+                <td>@(item.Tag?.Nev ?? "Ismeretlen tag")</td>
+                <td>@(item.BerletTipus?.Nev ?? "Ismeretlen típus")</td>
+                <td>@item.Vasarlas.ToString("yyyy. MM. dd.")</td>
+                <td>@item.Lejarat.ToString("yyyy. MM. dd.")</td>
+                <td>
+                    @if (item.BerletTipus?.BelepesekSzama.HasValue == true)
+                    {
+                        @($"{item.FelhasznaltBelepes} / {item.BerletTipus.BelepesekSzama.Value}")
+                    }
+                    else
+                    {
+                        <span>Korlátlan</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Lejarat.Date < DateTime.Today)
+                    {
+                        <span class="badge bg-danger">Lejárt</span>
+                    }
+                    else if (item.BerletTipus?.BelepesekSzama.HasValue == true &&
+                             item.FelhasznaltBelepes >= item.BerletTipus.BelepesekSzama.Value)
+                    {
+                        <span class="badge bg-warning text-dark">Elfogyott</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Érvényes</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Lejarat.Date >= DateTime.Today &&
+                         (!item.BerletTipus!.BelepesekSzama.HasValue ||
+                          item.FelhasznaltBelepes < item.BerletTipus.BelepesekSzama.Value))
+                    {
+                        <form method="post" asp-page-handler="Belepes" class="d-inline">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Belépés rögzítése
+                            </button>
+                        </form>
+                    }
+
+                    <a asp-page="./Details" asp-route-id="@item.Id">Részletek</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Szerkesztés</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Törlés</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

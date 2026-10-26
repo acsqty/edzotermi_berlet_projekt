@@ -1,0 +1,78 @@
+@page
+@model edzotermi_berlet_projekt.Pages.BerletPages.EditModel
+
+@{
+    ViewData["Title"] = "Bérlet szerkesztése";
+}
+
+<h1>Bérlet szerkesztése</h1>
+<h4>Bérlet adatainak módosítása</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <input type="hidden" asp-for="Berlet.Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Berlet.TagId"
+                       class="control-label">Tag</label>
+
+                <select asp-for="Berlet.TagId"
+                        asp-items="ViewBag.TagId"
+                        class="form-control">
+                    <option value="">-- Válassz tagot --</option>
+                </select>
+
+                <span asp-validation-for="Berlet.TagId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Berlet.BerletTipusId"
+                       class="control-label">Bérlettípus</label>
+
+                <select asp-for="Berlet.BerletTipusId"
+                        asp-items="ViewBag.BerletTipusId"
+                        class="form-control">
+                    <option value="">-- Válassz bérlettípust --</option>
+                </select>
+
+                <span asp-validation-for="Berlet.BerletTipusId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Berlet.Vasarlas"
+                       class="control-label">Vásárlás dátuma</label>
+
+                <input asp-for="Berlet.Vasarlas"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="Berlet.Vasarlas"
+                      class="text-danger"></span>
+            </div>
+
+            <p class="text-muted">
+                A lejárati dátum automatikusan újraszámításra kerül
+                a kiválasztott bérlettípus érvényessége alapján.
+            </p>
+
+            <button type="submit" class="btn btn-primary">
+                Módosítás mentése
+            </button>
+
+            <a asp-page="./Index" class="btn btn-secondary">
+                Vissza a listához
+            </a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -16,7 +16,7 @@ namespace edzotermi_berlet_projekt.Models
         [Range(1, 10000)]
         public int? BelepesekSzama { get; set; }
 
-        [Range(typeof(decimal), "0.01", "100000000")]
+        [Range(0.01, 100000000)]
         public decimal Ar { get; set; }
 
         public ICollection<Berlet> Berletek { get; set; } = new List<Berlet>();
