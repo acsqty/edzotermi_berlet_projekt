@@ -1,3 +1,6 @@
+using edzotermi_berlet_projekt.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace edzotermi_berlet_projekt
 {
     public class Program
@@ -5,6 +8,9 @@ namespace edzotermi_berlet_projekt
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(
+            builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add services to the container.
             builder.Services.AddRazorPages();
