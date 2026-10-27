@@ -7,50 +7,71 @@
 
 <h1>Edzőtermi tagok</h1>
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Új tag felvétele</a>
+<p class="text-muted">
+    Az edzőterem tagjainak és regisztrációs adatainak kezelése.
 </p>
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Név</th>
-            <th>E-mail</th>
-            <th>Telefonszám</th>
-            <th>Regisztráció dátuma</th>
-            <th>Bérletek száma</th>
-            <th>Műveletek</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Tag.Count == 0)
-        {
+<p class="mb-3">
+    <a asp-page="Create" class="btn btn-primary">
+        + Új tag felvétele
+    </a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
             <tr>
-                <td colspan="6">Még nincs regisztrált tag.</td>
+                <th>Név</th>
+                <th>E-mail</th>
+                <th>Telefonszám</th>
+                <th>Regisztráció dátuma</th>
+                <th>Bérletek száma</th>
+                <th>Műveletek</th>
             </tr>
-        }
-        else
-        {
-            @foreach (var item in Model.Tag)
+        </thead>
+        <tbody>
+            @if (Model.Tag.Count == 0)
             {
                 <tr>
-                    <td>@item.Nev</td>
-                    <td>@item.Email</td>
-                    <td>@item.Telefon</td>
-                    <td>@item.RegisztracioDatum.ToString("yyyy. MM. dd.")</td>
-                    <td>@item.Berletek.Count</td>
-                    <td>
-                        <a asp-page="./Edit"
-                           asp-route-id="@item.Id">Szerkesztés</a>
-                        |
-                        <a asp-page="./Details"
-                           asp-route-id="@item.Id">Részletek</a>
-                        |
-                        <a asp-page="./Delete"
-                           asp-route-id="@item.Id">Törlés</a>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        Még nincs regisztrált tag.
                     </td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+            else
+            {
+                @foreach (var item in Model.Tag)
+                {
+                    <tr>
+                        <td class="fw-semibold">@item.Nev</td>
+                        <td>@item.Email</td>
+                        <td>@item.Telefon</td>
+                        <td>@item.RegisztracioDatum.ToString("yyyy. MM. dd.")</td>
+                        <td>@item.Berletek.Count db</td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a asp-page="./Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Szerkesztés
+                                </a>
+
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-info">
+                                    Részletek
+                                </a>
+
+                                <a asp-page="./Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Törlés
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

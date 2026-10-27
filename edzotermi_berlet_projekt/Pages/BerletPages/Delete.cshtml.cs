@@ -25,15 +25,17 @@ public class DeleteModel : PageModel
             return NotFound();
         }
 
-        var berlet = await _context.Berletek.FirstOrDefaultAsync(m => m.Id == id);
+        var berlet = await _context.Berletek
+            .Include(b => b.Tag)
+            .Include(b => b.BerletTipus)
+            .FirstOrDefaultAsync(b => b.Id == id);
+
         if (berlet is null)
         {
             return NotFound();
         }
-        else
-        {
-            Berlet = berlet;
-        }
+
+        Berlet = berlet;
 
         return Page();
     }
@@ -45,11 +47,12 @@ public class DeleteModel : PageModel
             return NotFound();
         }
 
-        var berlet = await _context.Berletek.FindAsync(id);
-        if (berlet != null)
+        var berlet = await _context.Berletek
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (berlet is not null)
         {
-            Berlet = berlet;
-            _context.Berletek.Remove(Berlet);
+            _context.Berletek.Remove(berlet);
             await _context.SaveChangesAsync();
         }
 

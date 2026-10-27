@@ -2,49 +2,65 @@
 @model edzotermi_berlet_projekt.Pages.BerletTipusPages.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Új bérlettípus";
 }
 
-<h1>Create</h1>
-
-<h4>BerletTipus</h4>
+<h1>Új bérlettípus felvétele</h1>
+<p class="text-muted">Add meg az új bérlettípus adatait.</p>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="BerletTipus.Nev" class="control-label"></label>
-                <input asp-for="BerletTipus.Nev" class="form-control" aria-required="true"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BerletTipus.Nev" class="form-label">
+                    Bérlettípus neve
+                </label>
+                <input asp-for="BerletTipus.Nev" class="form-control" required />
                 <span asp-validation-for="BerletTipus.Nev" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BerletTipus.ErvenyessegNap" class="control-label"></label>
-                <input asp-for="BerletTipus.ErvenyessegNap" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="BerletTipus.ErvenyessegNap" class="form-label">
+                    Érvényesség (nap)
+                </label>
+                <input asp-for="BerletTipus.ErvenyessegNap"
+                       type="number" min="1" max="3650"
+                       class="form-control" />
                 <span asp-validation-for="BerletTipus.ErvenyessegNap" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BerletTipus.BelepesekSzama" class="control-label"></label>
-                <input asp-for="BerletTipus.BelepesekSzama" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="BerletTipus.BelepesekSzama" class="form-label">
+                    Belépések száma
+                </label>
+                <input asp-for="BerletTipus.BelepesekSzama"
+                       type="number" min="1" max="10000"
+                       class="form-control" />
+                <div class="form-text">
+                    (Üres = korlátlan)
+                </div>
                 <span asp-validation-for="BerletTipus.BelepesekSzama" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BerletTipus.Ar" class="control-label"></label>
-                <input asp-for="BerletTipus.Ar" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="BerletTipus.Ar" class="form-label">
+                    Ár (Ft)
+                </label>
+                <input asp-for="BerletTipus.Ar"
+                       type="number" min="0.01" step="0.01"
+                       class="form-control" />
                 <span asp-validation-for="BerletTipus.Ar" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <button type="submit" class="btn btn-primary">Mentés</button>
+            <a asp-page="./Index" class="btn btn-secondary">Vissza a listához</a>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

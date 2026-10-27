@@ -2,49 +2,52 @@
 @model edzotermi_berlet_projekt.Pages.TagPages.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Új tag felvétele";
 }
 
-<h1>Create</h1>
-
-<h4>Tag</h4>
+<h1>Új tag felvétele</h1>
+<p class="text-muted">Add meg az új tag adatait.</p>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="Tag.Nev" class="control-label"></label>
-                <input asp-for="Tag.Nev" class="form-control" aria-required="true"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Tag.Nev" class="form-label">Név *</label>
+                <input asp-for="Tag.Nev" class="form-control" required />
                 <span asp-validation-for="Tag.Nev" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Tag.Email" class="control-label"></label>
-                <input asp-for="Tag.Email" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Tag.Email" class="form-label">E-mail-cím</label>
+                <input asp-for="Tag.Email" type="email" class="form-control" />
                 <span asp-validation-for="Tag.Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Tag.Telefon" class="control-label"></label>
+
+            <div class="form-group mb-3">
+                <label asp-for="Tag.Telefon" class="form-label">Telefonszám</label>
                 <input asp-for="Tag.Telefon" class="form-control" />
                 <span asp-validation-for="Tag.Telefon" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Tag.RegisztracioDatum" class="control-label"></label>
-                <input asp-for="Tag.RegisztracioDatum" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Tag.RegisztracioDatum" class="form-label">
+                    Regisztráció dátuma
+                </label>
+                <input asp-for="Tag.RegisztracioDatum"
+                       type="datetime-local"
+                       class="form-control" />
                 <span asp-validation-for="Tag.RegisztracioDatum" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <button type="submit" class="btn btn-primary">Mentés</button>
+            <a asp-page="./Index" class="btn btn-secondary">Vissza a listához</a>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -48,6 +48,27 @@ public class CreateModel : PageModel
             return Page();
         }
 
+        var tag = await _context.Tagok
+            .FirstOrDefaultAsync(t => t.Id == Berlet.TagId);
+
+        if (tag == null)
+        {
+            ModelState.AddModelError(string.Empty, "A kiválasztott tag nem található.");
+            await LoadListsAsync();
+            return Page();
+        }
+
+        if (Berlet.Vasarlas.Date < tag.RegisztracioDatum.Date)
+        {
+            ModelState.AddModelError(
+                "Berlet.Vasarlas",
+                "A bérlet vásárlási dátuma nem lehet korábbi a tag regisztrációjánál.");
+
+            await LoadListsAsync();
+            return Page();
+        }
+
+
         if (berletTipus.ErvenyessegNap < 1)
         {
             ModelState.AddModelError(string.Empty,
@@ -85,4 +106,22 @@ public class CreateModel : PageModel
             "Nev",
             Berlet.BerletTipusId);
     }
+
+
+    public async Task<IActionResult> OnGetTagRegisztracioDatumAsync(int tagId)
+    {
+        var tag = await _context.Tagok
+            .FirstOrDefaultAsync(t => t.Id == tagId);
+
+        if (tag == null)
+        {
+            return NotFound();
+        }
+
+        return new JsonResult(new
+        {
+            minDate = tag.RegisztracioDatum.ToString("yyyy-MM-dd")
+        });
+    }
+
 }

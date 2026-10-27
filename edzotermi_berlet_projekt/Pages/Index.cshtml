@@ -5,33 +5,20 @@
     ViewData["Title"] = "Kezdőlap";
 }
 
-<h1>Edzőtermi bérletkezelő</h1>
+<div class="container py-5">
+    <div class="p-4 p-md-5 mb-4 rounded-3 bg-light border">
+        <div class="mx-auto" style="max-width: 850px;">
+            <h1 class="display-5 fw-bold mb-4">
+                Edzőtermi bérletkezelő alkalmazás
+            </h1>
 
-<p>
-    Az alkalmazás segítségével kezelhetők az edzőterem tagjai,
-    a bérlettípusok, a megvásárolt bérletek és a belépések.
-    A rendszer a havi bevételek nyomon követésére is lehetőséget biztosít.
-</p>
-
-<hr />
-
-<h4>Fő funkciók</h4>
-
-<ul>
-    <li>
-        <a asp-page="/TagPages/Index">Tagok kezelése</a>
-        – tagok felvétele, módosítása és törlése.
-    </li>
-    <li>
-        <a asp-page="/BerletTipusPages/Index">Bérlettípusok kezelése</a>
-        – árak, érvényességi idők és belépési korlátok beállítása.
-    </li>
-    <li>
-        <a asp-page="/BerletPages/Index">Bérletek kezelése</a>
-        – bérletvásárlások, belépések és érvényesség kezelése.
-    </li>
-    <li>
-        <a asp-page="/KimutatasPages/Index">Havi bevételi kimutatás</a>
-        – eladott bérletek és bevételek megtekintése.
-    </li>
-</ul>
+            <div class="border-start border-primary border-4 ps-3 mb-4">
+                <p class="lead mb-0">
+                    Az oldal segítségével nyilvántarthatóak az edzőterem tagjai,
+                    a bérlettípusok, a megvásárolt bérletek és a belépések.
+                    A havi bevételi kimutatás az eladói oldalról segíti a felhasználást!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

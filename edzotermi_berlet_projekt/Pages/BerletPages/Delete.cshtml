@@ -2,68 +2,59 @@
 @model edzotermi_berlet_projekt.Pages.BerletPages.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Bérlet törlése";
 }
 
-<h1>Delete</h1>
+<h1>Bérlet törlése</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>edzotermi_berlet_projekt.Models.Berlet</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.TagId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.TagId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.BerletTipusId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.BerletTipusId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.Vasarlas)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.Vasarlas)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.Lejarat)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.Lejarat)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.FelhasznaltBelepes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.FelhasznaltBelepes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.Tag)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.Tag)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.BerletTipus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.BerletTipus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Berlet.Belepesek)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Berlet.Belepesek)
-        </dd>
-    </dl>
-    <form method="post">
-        <input type="hidden" asp-for="Berlet.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
+<div class="alert alert-warning mt-3">
+    Biztosan törölni szeretnéd ezt a bérletet?
+
+    A művelet nem vonható vissza.
 </div>
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Tag neve</dt>
+    <dd class="col-sm-9">
+        @(Model.Berlet.Tag?.Nev ?? "Ismeretlen tag")
+    </dd>
+
+    <dt class="col-sm-3">Bérlet típusa</dt>
+    <dd class="col-sm-9">
+        @(Model.Berlet.BerletTipus?.Nev ?? "Ismeretlen bérlettípus")
+    </dd>
+
+    <dt class="col-sm-3">Vásárlás dátuma</dt>
+    <dd class="col-sm-9">
+        @Model.Berlet.Vasarlas.ToString("yyyy. MM. dd.")
+    </dd>
+
+    <dt class="col-sm-3">Lejárat dátuma</dt>
+    <dd class="col-sm-9">
+        @Model.Berlet.Lejarat.ToString("yyyy. MM. dd.")
+    </dd>
+
+    <dt class="col-sm-3">Felhasznált belépések</dt>
+    <dd class="col-sm-9">
+        @Model.Berlet.FelhasznaltBelepes
+    </dd>
+
+    <dt class="col-sm-3">Vásárláskori ár</dt>
+    <dd class="col-sm-9">
+        @Model.Berlet.VasarlasiAr.ToString("N0") Ft
+    </dd>
+</dl>
+
+<form method="post" class="mt-3">
+    <input type="hidden" asp-for="Berlet.Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Bérlet törlése
+    </button>
+
+    <a asp-page="./Index" class="btn btn-secondary">
+        Mégse, vissza a listához
+    </a>
+</form>
