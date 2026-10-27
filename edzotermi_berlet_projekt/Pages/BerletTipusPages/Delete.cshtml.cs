@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,43 +16,63 @@ public class DeleteModel : PageModel
         _context = context;
     }
 
-    [BindProperty]
     public BerletTipus BerletTipus { get; set; } = default!;
+
+    public bool VanKapcsolodoBerlet { get; set; }
+
+    public string? HibaUzenet { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id is null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var berlettipus = await _context.BerletTipusok.FirstOrDefaultAsync(m => m.Id == id);
-        if (berlettipus is null)
+        var berlettipus = await _context.BerletTipusok
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (berlettipus == null)
         {
             return NotFound();
         }
-        else
-        {
-            BerletTipus = berlettipus;
-        }
+
+        BerletTipus = berlettipus;
+
+        VanKapcsolodoBerlet = await _context.Berletek
+            .AnyAsync(b => b.BerletTipusId == id);
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int? id)
     {
-        if (id is null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var berlettipus = await _context.BerletTipusok.FindAsync(id);
-        if (berlettipus != null)
+        var berlettipus = await _context.BerletTipusok
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (berlettipus == null)
+        {
+            return NotFound();
+        }
+
+        bool vanKapcsolodoBerlet = await _context.Berletek
+            .AnyAsync(b => b.BerletTipusId == id);
+
+        if (vanKapcsolodoBerlet)
         {
             BerletTipus = berlettipus;
-            _context.BerletTipusok.Remove(BerletTipus);
-            await _context.SaveChangesAsync();
+            VanKapcsolodoBerlet = true;
+            HibaUzenet = "Ez a bérlettípus nem törölhető, mert már tartozik hozzá megvásárolt bérlet.";
+            return Page();
         }
+
+        _context.BerletTipusok.Remove(berlettipus);
+        await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
     }

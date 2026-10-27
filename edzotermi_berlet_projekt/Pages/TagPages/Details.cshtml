@@ -2,48 +2,145 @@
 @model edzotermi_berlet_projekt.Pages.TagPages.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Tag részletei";
 }
 
-<h1>Details</h1>
+<h1>Tag részletei</h1>
 
-<div>
-    <h4>Tag</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag.Nev)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.Nev)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag.Telefon)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.Telefon)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag.RegisztracioDatum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.RegisztracioDatum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag.Berletek)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.Berletek)
-        </dd>
-    </dl>
+<div class="card mb-4">
+    <div class="card-header">
+        <h4 class="mb-0">@Model.Tag.Nev</h4>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">E-mail-cím</dt>
+            <dd class="col-sm-9">@Model.Tag.Email</dd>
+
+            <dt class="col-sm-3">Telefonszám</dt>
+            <dd class="col-sm-9">@Model.Tag.Telefon</dd>
+
+            <dt class="col-sm-3">Regisztráció dátuma</dt>
+            <dd class="col-sm-9">
+                @Model.Tag.RegisztracioDatum.ToString("yyyy. MM. dd.")
+            </dd>
+
+            <dt class="col-sm-3">Bérletek száma</dt>
+            <dd class="col-sm-9">@Model.Tag.Berletek.Count</dd>
+        </dl>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Tag.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+<h2>Érvényes bérletek</h2>
+
+@if (Model.ErvenyesBerletek.Count == 0)
+{
+    <p class="text-muted">Nincs érvényes bérlete.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Bérlettípus</th>
+                <th>Vásárlás</th>
+                <th>Lejárat</th>
+                <th>Felhasznált belépések</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var berlet in Model.ErvenyesBerletek)
+            {
+                <tr>
+                    <td>@berlet.BerletTipus.Nev</td>
+                    <td>@berlet.Vasarlas.ToString("yyyy. MM. dd.")</td>
+                    <td>@berlet.Lejarat.ToString("yyyy. MM. dd.")</td>
+                    <td>
+                        @if (berlet.BerletTipus.BelepesekSzama.HasValue)
+                        {
+                            @($"{berlet.FelhasznaltBelepes} / {berlet.BerletTipus.BelepesekSzama.Value}")
+                        }
+                        else
+                        {
+                            <span>Korlátlan</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h2 class="mt-4">7 napon belül lejáró bérletek</h2>
+
+@if (Model.HamarosanLejaroBerletek.Count == 0)
+{
+    <p class="text-muted">Nincs a következő 7 napban lejáró bérlete.</p>
+}
+else
+{
+    <table class="table table-warning table-striped">
+        <thead>
+            <tr>
+                <th>Bérlettípus</th>
+                <th>Lejárat</th>
+                <th>Hátralévő idő</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var berlet in Model.HamarosanLejaroBerletek)
+            {
+                <tr>
+                    <td>@berlet.BerletTipus.Nev</td>
+                    <td>@berlet.Lejarat.ToString("yyyy. MM. dd.")</td>
+                    <td>
+                        @((berlet.Lejarat.Date - DateTime.Today).Days) nap
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h2 class="mt-4">Lejárt bérletek</h2>
+
+@if (Model.LejartBerletek.Count == 0)
+{
+    <p class="text-muted">Nincs lejárt bérlete.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Bérlettípus</th>
+                <th>Vásárlás</th>
+                <th>Lejárat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var berlet in Model.LejartBerletek)
+            {
+                <tr>
+                    <td>@berlet.BerletTipus.Nev</td>
+                    <td>@berlet.Vasarlas.ToString("yyyy. MM. dd.")</td>
+                    <td>
+                        <span class="badge bg-danger">
+                            @berlet.Lejarat.ToString("yyyy. MM. dd.")
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<hr />
+
+<p>
+    <a asp-page="./Edit"
+       asp-route-id="@Model.Tag.Id"
+       class="btn btn-primary">Tag szerkesztése</a>
+
+    <a asp-page="./Index"
+       class="btn btn-secondary">Vissza a tagokhoz</a>
+</p>

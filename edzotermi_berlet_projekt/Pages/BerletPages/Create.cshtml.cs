@@ -57,8 +57,11 @@ public class CreateModel : PageModel
         }
 
         Berlet.Vasarlas = Berlet.Vasarlas.Date;
+
         Berlet.Lejarat = Berlet.Vasarlas
             .AddDays(berletTipus.ErvenyessegNap);
+
+        Berlet.VasarlasiAr = berletTipus.Ar;
 
         Berlet.FelhasznaltBelepes = 0;
 

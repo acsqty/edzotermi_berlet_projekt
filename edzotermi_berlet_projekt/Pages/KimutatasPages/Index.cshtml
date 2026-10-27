@@ -1,0 +1,91 @@
+﻿@page
+@model edzotermi_berlet_projekt.Pages.KimutatasPages.IndexModel
+
+@{
+    ViewData["Title"] = "Havi bevételi kimutatás";
+}
+
+<h1>Havi bevételi kimutatás</h1>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-auto">
+        <label for="ev" class="form-label">Év</label>
+        <select id="ev" name="ev" class="form-select">
+            @for (int ev = DateTime.Today.Year - 5; ev <= DateTime.Today.Year + 1; ev++)
+            {
+                <option value="@ev" selected="@(Model.Ev == ev)">@ev</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <label for="honap" class="form-label">Hónap</label>
+        <select id="honap" name="honap" class="form-select">
+            @for (int honap = 1; honap <= 12; honap++)
+            {
+                <option value="@honap" selected="@(Model.Honap == honap)">
+                    @(System.Globalization.CultureInfo.GetCultureInfo("hu-HU").DateTimeFormat.GetMonthName(honap))
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-auto d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Kimutatás megjelenítése</button>
+    </div>
+</form>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Havi bevétel</h5>
+                <p class="card-text fs-3 fw-bold">
+                    @Model.OsszesBevetel.ToString("N0") Ft
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Eladott bérletek</h5>
+                <p class="card-text fs-3 fw-bold">
+                    @Model.OsszesEladottBerlet db
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Bontás bérlettípusonként</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Bérlettípus</th>
+            <th>Eladott darab</th>
+            <th>Bevétel</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Kimutatas.Count == 0)
+        {
+            <tr>
+                <td colspan="3">Ebben a hónapban még nem történt bérletvásárlás.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model.Kimutatas)
+            {
+                <tr>
+                    <td>@item.BerlettipusNev</td>
+                    <td>@item.EladottDarab</td>
+                    <td>@item.Bevetel.ToString("N0") Ft</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

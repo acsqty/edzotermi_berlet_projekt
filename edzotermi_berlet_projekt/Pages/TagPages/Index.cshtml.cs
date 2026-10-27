@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,13 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Tag> Tag { get; set; } = default!;
+    public IList<Tag> Tag { get; set; } = new List<Tag>();
 
     public async Task OnGetAsync()
     {
-        Tag = await _context.Tagok.ToListAsync();
+        Tag = await _context.Tagok
+            .Include(t => t.Berletek)
+            .OrderBy(t => t.Nev)
+            .ToListAsync();
     }
 }

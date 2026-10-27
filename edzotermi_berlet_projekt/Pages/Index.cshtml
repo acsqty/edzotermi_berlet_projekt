@@ -1,10 +1,37 @@
 ﻿@page
 @model IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Kezdőlap";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Edzőtermi bérletkezelő</h1>
+
+<p>
+    Az alkalmazás segítségével kezelhetők az edzőterem tagjai,
+    a bérlettípusok, a megvásárolt bérletek és a belépések.
+    A rendszer a havi bevételek nyomon követésére is lehetőséget biztosít.
+</p>
+
+<hr />
+
+<h4>Fő funkciók</h4>
+
+<ul>
+    <li>
+        <a asp-page="/TagPages/Index">Tagok kezelése</a>
+        – tagok felvétele, módosítása és törlése.
+    </li>
+    <li>
+        <a asp-page="/BerletTipusPages/Index">Bérlettípusok kezelése</a>
+        – árak, érvényességi idők és belépési korlátok beállítása.
+    </li>
+    <li>
+        <a asp-page="/BerletPages/Index">Bérletek kezelése</a>
+        – bérletvásárlások, belépések és érvényesség kezelése.
+    </li>
+    <li>
+        <a asp-page="/KimutatasPages/Index">Havi bevételi kimutatás</a>
+        – eladott bérletek és bevételek megtekintése.
+    </li>
+</ul>

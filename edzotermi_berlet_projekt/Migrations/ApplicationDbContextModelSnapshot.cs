@@ -57,6 +57,9 @@ namespace edzotermi_berlet_projekt.Migrations
                     b.Property<DateTime>("Vasarlas")
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("VasarlasiAr")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BerletTipusId");

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace edzotermi_berlet_projekt.Models
 {
@@ -19,6 +20,10 @@ namespace edzotermi_berlet_projekt.Models
 
         [Range(0, int.MaxValue)]
         public int FelhasznaltBelepes { get; set; } = 0;
+
+        [BindNever]
+        [ValidateNever]
+        public decimal VasarlasiAr { get; set; }
 
         [ValidateNever]
         public Tag Tag { get; set; } = null!;
